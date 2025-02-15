@@ -13,4 +13,8 @@ export class AppService {
   getHome(): Observable<Payload> {
     return this.http.get<Payload>('http://localhost:8080/api');
   }
+
+  updateExchangeRates(): Observable<Payload> {
+    return this.http.post<Payload>('http://localhost:8080/api/exchange-rates/update', {});
+  }
 }
