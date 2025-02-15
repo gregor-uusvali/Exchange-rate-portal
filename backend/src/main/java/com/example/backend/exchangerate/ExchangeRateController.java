@@ -27,7 +27,7 @@ public class ExchangeRateController {
 
     @PostMapping("/update")
     public ResponseEntity<Void> triggerUpdate() {
-        exchangeRateService.updateExchangeRates();
+        exchangeRateService.updateExchangeRates(false);
         return ResponseEntity.ok().build();
     }
 } 

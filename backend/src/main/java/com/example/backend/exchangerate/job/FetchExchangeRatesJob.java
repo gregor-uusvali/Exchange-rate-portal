@@ -14,6 +14,6 @@ public class FetchExchangeRatesJob implements Job {
 
     @Override
     public void execute(JobExecutionContext context) {
-        exchangeRateService.updateExchangeRates();
+        exchangeRateService.updateExchangeRates(false);
     }
 } 

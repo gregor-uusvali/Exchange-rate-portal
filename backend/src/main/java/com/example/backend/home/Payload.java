@@ -19,16 +19,4 @@ public class Payload {
         this.message = message;
         this.version = version;
     }
-    
-    public String getStatus() {
-        return status;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public String getVersion() {
-        return version;
-    }
 }
