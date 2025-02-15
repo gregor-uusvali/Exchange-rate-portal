@@ -34,14 +34,25 @@ public class ExchangeRateService {
             logger.info("Starting exchange rates update. Populate: {}", populate);
             
             if (populate) {
-                // populate db if no rates
                 String historicalXmlData = restTemplate.getForObject(ECB_HISTORY_URL, String.class);
                 List<ExchangeRate> historicalRates = parseXmlRates(historicalXmlData);
                 repository.saveAll(historicalRates);
-                logger.info("Successfully saved {} historical exchange rates", historicalRates.size());
+                logger.info("Successfully processed {} historical exchange rates", historicalRates.size());
             } else {
                 String currentXmlData = restTemplate.getForObject(ECB_RATE_URL, String.class);
                 List<ExchangeRate> currentRates = parseXmlRates(currentXmlData);
+                
+                List<ExchangeRate> existingRates = repository.findByDate(currentRates.get(0).getDate());
+                if (!existingRates.isEmpty()) {
+                    logger.info("Rates for today already exist, skipping update");
+                    return;
+                }
+    
+                if (currentRates.isEmpty()) {
+                    logger.warn("No rates received from ECB");
+                    return;
+                }
+    
                 repository.saveAll(currentRates);
                 logger.info("Successfully saved {} current exchange rates", currentRates.size());
             }

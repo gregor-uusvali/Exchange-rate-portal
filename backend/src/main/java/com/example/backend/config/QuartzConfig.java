@@ -9,7 +9,7 @@ import com.example.backend.exchangerate.job.FetchExchangeRatesJob;
 public class QuartzConfig {
     
     @Bean
-    public JobDetail fetchExchangeRatesJobDetail() {
+    JobDetail fetchExchangeRatesJobDetail() {
         return JobBuilder.newJob(FetchExchangeRatesJob.class)
                 .withIdentity("fetchExchangeRatesJob")
                 .storeDurably()
@@ -17,7 +17,7 @@ public class QuartzConfig {
     }
 
     @Bean
-    public Trigger fetchExchangeRatesTrigger() {
+    Trigger fetchExchangeRatesTrigger() {
         return TriggerBuilder.newTrigger()
                 .forJob(fetchExchangeRatesJobDetail())
                 .withIdentity("fetchExchangeRatesTrigger")
