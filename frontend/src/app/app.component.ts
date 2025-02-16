@@ -1,46 +1,71 @@
-import { Component } from '@angular/core';
-import { AppService } from './app.service';
-import { Payload } from './app.interface';
+import {Component} from '@angular/core';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
-
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+import { CurrencyRate } from './app.interface';
+import { AppService } from './app.service';
+import { DatePipe } from '@angular/common';
+import { ChartComponent } from './chart/chart.component';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-root',
-  imports: [MatTableModule],
+  standalone: true,
+  imports: [
+    MatTableModule,
+    MatButtonModule,
+    MatIconModule,
+    DatePipe,
+    ChartComponent,
+    FormsModule, 
+    MatFormFieldModule, 
+    ReactiveFormsModule, 
+    MatInputModule
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
-  homePayload: Payload | null = null;
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['currency', 'rate'];
+  dataSource: CurrencyRate[] = [];
+  datePipe = new DatePipe('en-US');
+  currencyHistory: CurrencyRate[] = [];
+  selectedCurrency: CurrencyRate | null = null;
+  calculatorFC = new FormControl(null, [Validators.required, Validators.min(0)]);
+  calculationObj: {input: number,currency: string, amount: number} | null = null;
 
   constructor(
-    private appService: AppService
+    private appService: AppService,
   ) {
-    this.appService.getHome().subscribe((res) => this.homePayload = res);
+    
+  }
+  ngOnInit(): void {
+    this.appService.getCurrentRates().subscribe((res) => {
+      this.dataSource = res;
+      this.selectCurrency(this.dataSource[0]);
+    });
   }
 
-  updateExchangeRates() {
-    this.appService.updateExchangeRates().subscribe((res) => this.homePayload = res);
-  } 
+  selectCurrency(currency: CurrencyRate) {
+    if (this.selectedCurrency !== currency) {
+      this.selectedCurrency = currency;
+      this.calculatorFC.reset();
+      this.calculationObj = null;
+    }
+  }
+
+  calculateCurrencyToEur(event: Event) {
+    event.preventDefault();
+    console.log(this.calculatorFC.value);
+    if (this.selectedCurrency && this.calculatorFC.value !== null) {
+      const amount = (this.calculatorFC.value * this.selectedCurrency.rate).toFixed(4);
+      this.calculationObj = {
+        input: this.calculatorFC.value, 
+        currency: this.selectedCurrency.currency, 
+        amount: Number(amount)
+      };
+    }
+  }
 }

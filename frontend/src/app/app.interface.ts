@@ -1,5 +1,6 @@
-export interface Payload {
-    status: string;
-    message: string;
-    version: string;
+export interface CurrencyRate{
+    id: number;
+    currency: string;
+    date: string;
+    rate: number;
 }

@@ -118,6 +118,6 @@ public class ExchangeRateService {
     }
 
     public List<ExchangeRate> getRatesForCurrency(String currency) {
-        return repository.findByCurrency(currency.toUpperCase());
+        return repository.findByCurrencyOrderByDateAsc(currency.toUpperCase());
     }
 } 

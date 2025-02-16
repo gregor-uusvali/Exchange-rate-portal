@@ -1,36 +1,46 @@
 <div class="container">
-  <button (click)="updateExchangeRates()">Update</button>
+  <div class="table-col">
+    @if (dataSource.length > 0) { 
+      <span [style.margin-left.px]="10" class="header">Exchange rates on {{dataSource[0].date | date:'dd.MM.yyyy'}}</span> 
+    }
+    <div class="table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="currency">
+          <th mat-header-cell *matHeaderCellDef sticky> Currency </th>
+          <td mat-cell *matCellDef="let element"> {{element.currency}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="rate">
+          <th mat-header-cell *matHeaderCellDef sticky> Rate </th>
+          <td mat-cell *matCellDef="let element"> {{element.rate}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selectCurrency(row)"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="chart-col">
+    <span class="header">Selected currency {{selectedCurrency?.currency}}</span>
+    <form class="calculator-form" (submit)="calculateCurrencyToEur($event)">
+      <mat-form-field>
+        <mat-label>Calculate EUR to {{selectedCurrency?.currency}}</mat-label>
+        <input type="number" matInput [formControl]="calculatorFC">
+        @if (calculatorFC.hasError('min') && !calculatorFC.hasError('required')) { 
+          <mat-error>Please enter a valid amount</mat-error> 
+        }
+        @if (calculatorFC.hasError('required')) { 
+          <mat-error>Amount is required</mat-error> 
+        }
+      </mat-form-field>
+      <button mat-raised-button type="submit">Calculate</button>  
+    </form>
+
+    @if (calculationObj) {
+      <span class="result">
+        Result: {{calculationObj.input}} EUR = {{calculationObj.amount}} {{calculationObj.currency}} (at {{selectedCurrency?.rate}} rate)
+      </span>
+    }
+    @if (selectedCurrency) { <app-chart [currency]="selectedCurrency.currency"></app-chart> }
+  </div>
 </div>
-
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-  <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
-
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef> No. </th>
-    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef> Name </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
-
-  <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef> Weight </th>
-    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-  </ng-container>
-
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <th mat-header-cell *matHeaderCellDef> Symbol </th>
-    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>

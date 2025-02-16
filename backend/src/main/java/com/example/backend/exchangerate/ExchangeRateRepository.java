@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface ExchangeRateRepository extends JpaRepository<ExchangeRate, Long> {
     List<ExchangeRate> findByDate(LocalDate date);
-    List<ExchangeRate> findByCurrency(String currency);
+    List<ExchangeRate> findByCurrencyOrderByDateAsc(String currency);
     
     @Query("SELECT MAX(e.date) FROM ExchangeRate e")
     Optional<LocalDate> findMostRecentDate();

@@ -1,3 +1,79 @@
-table {
-    width: 100%;
-  }
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+    height: 100vh;
+    margin: 0 auto;
+    max-width: 2000px;
+}
+
+.header {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.chart-col {
+    margin: 10px auto;
+    width: 50%;
+    padding-right: 10px;
+}
+
+.table-col {
+    max-width: 1000px;
+    margin: 10px auto;
+    width: 50%;
+    height: 96vh;
+}
+
+.table-container {
+    height: 100%;
+    overflow-y: auto;
+
+    th.mat-mdc-header-cell {
+        background: white;
+    }
+
+    ::ng-deep .mat-mdc-table {
+        background-color: unset;
+    }
+
+
+    ::ng-deep tbody tr:hover {
+        background: whitesmoke;
+        cursor: pointer;
+    }
+}
+
+.calculator-form {
+    margin: 10px 0;
+    position: relative;
+
+    button {
+        position: absolute;
+        top: 0;
+        height: 56px;
+        margin-left: 10px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        justify-content: unset;
+
+    }
+    .chart-col {
+        margin: 10px auto;
+        width: 98%;
+        height: 50vh;
+        padding: 0 10px;
+    }
+    
+    .table-col {
+        max-width: 1000px;
+        // margin: 10px auto;
+        width: 100%;
+        height: 40vh;
+    }
+}

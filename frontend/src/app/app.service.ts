@@ -1,20 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Payload } from './app.interface';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-
+import { CurrencyRate } from './app.interface';
 @Injectable({
   providedIn: 'root'
 })
 export class AppService {
+  apiUrl = 'http://localhost:8080/api/exchange-rates';
 
   constructor(private http: HttpClient) { }
 
-  getHome(): Observable<Payload> {
-    return this.http.get<Payload>('http://localhost:8080/api');
+  getCurrentRates(): Observable<CurrencyRate[]>{
+    return this.http.get<CurrencyRate[]>(`${this.apiUrl}/current`);
   }
 
-  updateExchangeRates(): Observable<Payload> {
-    return this.http.post<Payload>('http://localhost:8080/api/exchange-rates/update', {});
+  getCurrencyHistory(type: string): Observable<CurrencyRate[]>{
+    return this.http.get<CurrencyRate[]>(`${this.apiUrl}/currency/${type}`);
   }
 }
