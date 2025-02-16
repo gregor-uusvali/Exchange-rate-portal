@@ -50,7 +50,7 @@ Backend:
 - `SPRING_DATASOURCE_PASSWORD`: Database password
 
 ## Project Structure
-
+```
 .
 ├── frontend/                # Angular frontend
 │   ├── src/                # Source files
@@ -61,6 +61,7 @@ Backend:
 │   ├── build.gradle       # Backend dependencies
 │   └── Dockerfile        # Backend Docker configuration
 └── docker-compose.yml     # Docker Compose configuration
+```
 
 ## Docker Configuration
 
