@@ -52,15 +52,15 @@ Backend:
 ## Project Structure
 ```
 .
-├── frontend/                # Angular frontend
-│   ├── src/                # Source files
-│   ├── package.json        # Frontend dependencies
-│   └── Dockerfile         # Frontend Docker configuration
-├── backend/                # Spring Boot backend
-│   ├── src/               # Source files
-│   ├── build.gradle       # Backend dependencies
+├── frontend/             # Angular frontend
+│   ├── src/              # Source files
+│   ├── package.json      # Frontend dependencies
+│   └── Dockerfile        # Frontend Docker configuration
+├── backend/              # Spring Boot backend
+│   ├── src/              # Source files
+│   ├── build.gradle      # Backend dependencies
 │   └── Dockerfile        # Backend Docker configuration
-└── docker-compose.yml     # Docker Compose configuration
+└── docker-compose.yml    # Docker Compose configuration
 ```
 
 ## Docker Configuration
