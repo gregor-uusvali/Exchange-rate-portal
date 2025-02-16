@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: exchange-rate-backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:file:/data/exchange_rates_db;DB_CLOSE_ON_EXIT=FALSE
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=password
+    volumes:
+      - h2-data:/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: exchange-rate-frontend
+    ports:
+      - "4200:4200"
+    depends_on:
+      - backend
+
+volumes:
+  h2-data: 

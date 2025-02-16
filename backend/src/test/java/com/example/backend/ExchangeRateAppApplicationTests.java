@@ -3,13 +3,11 @@ package com.example.backend;
 import com.example.backend.exchangerate.ExchangeRate;
 import com.example.backend.exchangerate.ExchangeRateRepository;
 import com.example.backend.exchangerate.ExchangeRateService;
-import com.example.backend.exchangerate.job.FetchExchangeRatesJob;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.quartz.JobExecutionContext;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
