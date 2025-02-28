@@ -22,7 +22,7 @@
   </div>
   <div class="chart-col">
     <span class="header">Selected currency {{selectedCurrency?.currency}}</span>
-    <form class="calculator-form" (submit)="calculateCurrencyToEur($event)">
+    <form class="calculator-form" (submit)="calculateEuroToSelectedCurrency($event)">
       <mat-form-field>
         <mat-label>Calculate EUR to {{selectedCurrency?.currency}}</mat-label>
         <input type="number" matInput [formControl]="calculatorFC">
