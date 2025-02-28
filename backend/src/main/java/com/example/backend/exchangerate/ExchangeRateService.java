@@ -62,7 +62,7 @@ public class ExchangeRateService {
         }
     }
 
-    private List<ExchangeRate> parseXmlRates(String xmlData) throws Exception {
+    public List<ExchangeRate> parseXmlRates(String xmlData) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = factory.newDocumentBuilder();
         Document doc = builder.parse(new InputSource(new StringReader(xmlData)));

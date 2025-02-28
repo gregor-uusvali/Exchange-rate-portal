@@ -115,4 +115,31 @@ class ExchangeRateAppApplicationTests {
 		assertEquals(1, result.size());
 		assertEquals(yesterday, result.get(0).getDate());
 	}
+
+	@Test
+	void xmlParsing() {
+		// Arrange
+		String mockXmlData = """
+			<gesmes:Envelope xmlns:gesmes="http://www.gesmes.org/xml/2002-08-01" xmlns="http://www.ecb.int/vocabulary/2002-08-01/eurofxref">
+					<Cube>
+							<Cube time="2024-02-28">
+									<Cube currency="USD" rate="1.0876"/>
+									<Cube currency="GBP" rate="0.8568"/>
+							</Cube>
+					</Cube>
+			</gesmes:Envelope>
+    """;
+
+		assertNotNull(mockXmlData);
+		try {
+			// Act
+			List<ExchangeRate> result = service.parseXmlRates(mockXmlData);
+			// Assert
+			assertNotNull(result);
+			assertFalse(result.isEmpty(), "Parsed result is empty");
+			assertEquals(2, result.size(), "Unexpected number of exchange rates");
+		} catch (Exception e) {
+			fail("Exception thrown during parsing: " + e.getMessage());
+		}
+	}
 }
